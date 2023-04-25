@@ -1,0 +1,22 @@
+[
+  {
+    "title": "banana",
+    "description": "bananas",
+    "thumnail": [],
+    "code": 123,
+    "price": 200,
+    "status": "true",
+    "category": "roll",
+    "id": 1
+  },
+  {
+    "title": "peras",
+    "description": "peras",
+    "thumnail": [],
+    "code": 12773,
+    "price": 200,
+    "status": "true",
+    "category": "roll",
+    "id": 2
+  }
+]

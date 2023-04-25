@@ -1,0 +1,30 @@
+* {
+  font-family: sans-serif;
+  color: white;
+}
+body {
+  background-color: rgb(38, 38, 38);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+h1 {
+  color: #e7832b;
+}
+div {
+  display: flex;
+}
+ul {
+  width: 200px;
+  height: 300px;
+  border-radius: 15px;
+  background-color: rgb(32, 32, 32);
+  margin-left: 15px;
+  cursor: pointer;
+  -webkit-box-shadow: 1px 3px 19px -3px #000000;
+  box-shadow: 1px 3px 19px -3px #000000;
+}
+li {
+  margin-top: 10px;
+  list-style: none;
+}

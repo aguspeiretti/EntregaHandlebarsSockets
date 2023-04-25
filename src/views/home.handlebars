@@ -1,15 +1,16 @@
-<ul>
+<h1>Products</h1>
+<div>
   {{#each allProducts}}
-  <li>
-    Title :{{title}} </li>  
-    Description : {{description}}</br>  
-    Thumnail: {{thumnail}}</br>  
-    Code: {{code}}</br>  
-    Price:{{price}}</br>  
-    Status: {{status}}  
-    Cartegory :{{category}}</br>  
-    id: {{id}}</br>
-    </li>
+  <ul>
+    <li>Title :{{title}} 
+    <li>Description : {{description}}</li>  
+    <li>Thumnail: {{thumnail}}</li>  
+    <li>Code: {{code}}</li>  
+    <li>Price:{{price}}</li>  
+    <li>Status: {{status}}  
+    <li>Cartegory :{{category}}</li>  
+    <li>id: {{id}}</li>
+    </ul>
   {{/each}}
-</ul>
+</div>
 

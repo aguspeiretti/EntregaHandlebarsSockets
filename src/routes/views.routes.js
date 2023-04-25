@@ -13,3 +13,7 @@ router.get("/", async (rec, res) => {
   const allProducts = await products;
   res.render("home", { allProducts, css: "products" });
 });
+
+router.get("/realTimeProducts", async (rec, res) => {
+  res.render("realTimeProducts");
+});

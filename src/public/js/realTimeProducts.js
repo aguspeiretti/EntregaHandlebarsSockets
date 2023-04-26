@@ -7,10 +7,16 @@ socket.on("updateProducts", (products) => {
   products.forEach((product) => {
     const productDiv = document.createElement("div");
     productDiv.innerHTML = `
-          <h2>${product.title}</h2>
-          <p>${product.description}</p>
-          <img src="${product.thumbnail}" alt="${product.title}">
-          <p>${product.price}</p>
+          <div class="cardContainer">
+            <h2>${product.title}</h2>
+            <p class="category">${product.category}</p>
+            <div class="imgConteiner" >
+            <img  src="${product.thumbnail}" alt="${product.title}">
+            </div>
+            <p class="description">${product.description}</p>
+            <p class="price">$ ${product.price}</p>
+          </div>
+          
         `;
     productContainer.appendChild(productDiv);
   });

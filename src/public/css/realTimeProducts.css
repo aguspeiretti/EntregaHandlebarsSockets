@@ -10,12 +10,6 @@ body {
   align-items: center;
   background-color: rgb(38, 38, 38);
 }
-
-h1 {
-  color: #e7832b;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
 #product-container {
   width: 80vw;
   height: auto;
@@ -23,6 +17,11 @@ h1 {
   flex-wrap: wrap;
   justify-content: space-between;
   background-color: rgb(38, 38, 38);
+}
+.titulo {
+  color: #e7832b;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .cardContainer {

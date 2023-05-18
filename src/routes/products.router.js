@@ -11,6 +11,7 @@ const products = productsManager.getProducts();
 
 router.get(`/`, async (req, res) => {
   const allProducts = await products;
+  req.io.emit("updateProducts", allProducts);
   const cantidadDeProductos = req.query.limit;
   if (cantidadDeProductos) {
     const reduced = allProducts.slice(0, cantidadDeProductos);
@@ -35,7 +36,9 @@ router.get(`/:pId`, async (req, res) => {
 router.post(`/`, async (req, res) => {
   try {
     const newContent = req.body;
-    productsManager.addProduct(newContent);
+    await productsManager.addProduct(newContent);
+    const products = await productsManager.getProducts();
+    req.io.emit("updateProducts", products);
     res.send({ status: "succes", message: "product posted" });
   } catch (error) {
     res.status(404).send({ status: "error", error: "not found" });

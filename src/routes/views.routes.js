@@ -1,19 +1,18 @@
 import { Router } from "express";
-import ProductsManager from "../../managers/productsManager.js";
-
-const productsManager = new ProductsManager();
-
-const products = productsManager.getProducts();
+import ProductsManager from "../dao/mongo/managers/productManager.js";
 
 const router = Router();
 
-export default router;
+const productsManager = new ProductsManager();
 
 router.get("/", async (req, res) => {
-  const allProducts = await products;
-  res.render("home", { allProducts, css: "products" });
+  const products = await productsManager.getProducts();
+
+  res.render("home", { products, css: "products" });
 });
 
 router.get("/realTimeProducts", async (req, res) => {
   res.render("realTimeProducts", { css: "realTimeProducts" });
 });
+
+export default router;

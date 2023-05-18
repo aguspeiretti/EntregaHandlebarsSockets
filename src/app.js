@@ -1,13 +1,17 @@
 import express from "express";
-import ProductsRouter from "./routes/products.router.js";
+import ProductsRouter from "./routes/products.mongoose.router.js";
 import CartsRouter from "./routes/carts.routes.js";
 import __dirname from "./utils.js";
 import viewsRouter from "./routes/views.routes.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import ProductsManager from "../managers/productsManager.js";
+import mongoose from "mongoose";
 
 const app = express();
+const connection = mongoose.connect(
+  "mongodb+srv://aguspeiretti:123@agusdb.7mmevwy.mongodb.net/ecommers?retryWrites=true&w=majority"
+);
 const server = app.listen(8080, () => console.log("escuchando"));
 const io = new Server(server);
 app.use((req, res, next) => {
@@ -26,18 +30,9 @@ app.use(express.static(`${__dirname}/public`));
 
 app.use("/", viewsRouter);
 
-// const renderRealTimeProducts = async (socket) => {
-//   try {
-//     const productManager = new ProductsManager();
-//     const products = await productManager.getProducts();
-//     socket.emit("updateProducts", products);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 io.on("connection", async (socket) => {
   console.log("nuevo cliente conectado");
-  // renderRealTimeProducts(socket);
+
   const productManager = new ProductsManager();
   const products = await productManager.getProducts();
   socket.emit("updateProducts", products);

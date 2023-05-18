@@ -9,6 +9,7 @@ const productsManager = new ProductsManager();
 
 router.get("/", async (req, res) => {
   const products = await productsManager.getProducts();
+  req.io.emit("updateProducts", products);
   res.send({ status: "succes", payload: products });
 });
 
@@ -29,7 +30,7 @@ router.post("/", async (req, res) => {
       .status(400)
       .send({ status: "error", error: "Incomplete Values" });
 
-  const company = {
+  const product = {
     title,
     description,
     thumbnail,
@@ -39,7 +40,9 @@ router.post("/", async (req, res) => {
     category,
   };
 
-  const result = await companiesService.createCompany(company);
+  const result = await productsManager.createProduct(product);
+  const products = await productsManager.getProducts();
+  req.io.emit("updateProducts", products);
 
   res.sendStatus(201);
 });
@@ -58,6 +61,8 @@ router.put("/:cid", async (req, res) => {
   const updateProduct = req.body;
 
   const result = await productsManager.updateproduct(cid, updateProduct);
+  const products = await productsManager.getProducts();
+  req.io.emit("updateProducts", products);
 
   res.sendStatus(201);
 });
@@ -66,6 +71,8 @@ router.delete("/:cid", async (req, res) => {
   const { cid } = req.params;
 
   await productsManager.deleteCompany(cid);
+  const products = await productsManager.getProducts();
+  req.io.emit("updateProducts", products);
 
-  res.sendStatus(201);
+  res.sendStatus(410);
 });

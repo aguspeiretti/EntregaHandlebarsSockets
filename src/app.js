@@ -5,7 +5,7 @@ import __dirname from "./utils.js";
 import viewsRouter from "./routes/views.routes.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
-import ProductsManager from "../managers/productsManager.js";
+import ProductsManager from "./dao/mongo/managers/productManager.js";
 import mongoose from "mongoose";
 
 const app = express();
@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/products", ProductsRouter);
@@ -32,7 +33,6 @@ app.use("/", viewsRouter);
 
 io.on("connection", async (socket) => {
   console.log("nuevo cliente conectado");
-
   const productManager = new ProductsManager();
   const products = await productManager.getProducts();
   socket.emit("updateProducts", products);

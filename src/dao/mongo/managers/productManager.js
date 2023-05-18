@@ -2,7 +2,6 @@ import productModel from "../models/products.js";
 
 export default class ProductsManager {
   getProducts = (params) => {
-    console.log("hola desde monguito");
     return productModel.find(params).lean();
   };
 

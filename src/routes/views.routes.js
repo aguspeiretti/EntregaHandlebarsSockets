@@ -7,7 +7,6 @@ const productsManager = new ProductsManager();
 
 router.get("/", async (req, res) => {
   const products = await productsManager.getProducts();
-
   res.render("home", { products, css: "products" });
 });
 

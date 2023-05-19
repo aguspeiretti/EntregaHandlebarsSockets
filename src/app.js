@@ -7,6 +7,7 @@ import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import ProductsManager from "./dao/mongo/managers/productManager.js";
 import mongoose from "mongoose";
+import messagesModel from "./dao/mongo/models/messages.js";
 
 const app = express();
 const connection = mongoose.connect(
@@ -36,4 +37,32 @@ io.on("connection", async (socket) => {
   const productManager = new ProductsManager();
   const products = await productManager.getProducts();
   socket.emit("updateProducts", products);
+});
+
+const messages = [];
+
+io.on("connection", async (socket) => {
+  console.log("Nuevo socket conectado");
+  try {
+    // Obtén todos los mensajes existentes desde MongoDB
+    const messages = await messagesModel.find({}).lean().exec();
+    socket.emit("logs", messages);
+  } catch (error) {
+    console.error("Error al obtener mensajes desde MongoDB:", error);
+  }
+  socket.on("message", async (data) => {
+    try {
+      // Crea un nuevo documento en MongoDB con el mensaje recibido
+      const message = await messagesModel.create(data);
+      // Agrega el nuevo mensaje al array en memoria
+      messages.push(message);
+      // Emite los mensajes actualizados a todos los clientes conectados
+      io.emit("logs", messages);
+    } catch (error) {
+      console.error("Error al crear el mensaje en MongoDB:", error);
+    }
+  });
+  socket.on("authenticated", (data) => {
+    socket.broadcast.emit("newUserConnected", data);
+  });
 });

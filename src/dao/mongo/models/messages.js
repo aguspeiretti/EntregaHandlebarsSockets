@@ -4,10 +4,8 @@ const collection = "messages";
 
 const schema = new mongoose.Schema(
   {
-    firstName: String,
-    lastName: String,
-    password: String,
-    email: String,
+    user: String,
+    message: String,
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

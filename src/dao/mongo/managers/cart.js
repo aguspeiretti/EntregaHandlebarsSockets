@@ -9,12 +9,14 @@ export default class CartsManager {
     return cartsModel.findOne(params).lean();
   };
 
-  createCart = (company) => {
-    return cartsModel.create(company);
+  createCart = (product) => {
+    return cartsModel.create(product);
   };
 
-  updateCart = (id, company) => {
-    return cartsModel.findByIdAndUpdate(id, { $set: company });
+  addProductToCart = () => {};
+
+  updateCart = (id, products) => {
+    return cartsModel.findByIdAndUpdate(id, { $set: { products } });
   };
 
   deleteCart = (id) => {

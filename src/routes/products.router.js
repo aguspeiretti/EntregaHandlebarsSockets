@@ -11,7 +11,7 @@ const products = productsManager.getProducts();
 
 router.get(`/`, async (req, res) => {
   const allProducts = await products;
-  req.io.emit("updateProducts", allProducts);
+  // req.io.emit("updateProducts", allProducts);
   const cantidadDeProductos = req.query.limit;
   if (cantidadDeProductos) {
     const reduced = allProducts.slice(0, cantidadDeProductos);

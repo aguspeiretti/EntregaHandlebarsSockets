@@ -17,7 +17,7 @@ export default class ProductsManager {
     return productModel.findByIdAndUpdate(id, { $set: company });
   };
 
-  deleteCompany = (id) => {
+  deleteProduct = (id) => {
     return productModel.findByIdAndDelete(id);
   };
 }

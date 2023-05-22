@@ -4,10 +4,7 @@ const collection = "carts";
 
 const schema = new mongoose.Schema(
   {
-    firstName: String,
-    lastName: String,
-    password: String,
-    email: String,
+    product: Array,
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

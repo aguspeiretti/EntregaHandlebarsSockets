@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
   try {
-    const { cid } = req.params.cid;
+    const cid = req.params.cid;
     console.log(cid);
     const carts = await cartsManager.getCartById(cid);
     console.log(carts);

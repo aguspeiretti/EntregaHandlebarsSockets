@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
 router.get("/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
-    console.log(cid);
     const carts = await cartsManager.getCartById(cid);
     console.log(carts);
     res.send({ status: "succes", payload: carts });
@@ -34,8 +33,8 @@ router.post("/", async (req, res) => {
 });
 router.post("/:cid/:pid", async (req, res) => {
   try {
-    const { cid } = req.params.cid;
-    const { pid } = req.params.pid;
+    const cid = req.params.cid;
+    const pid = req.params.pid;
     const addProductCart = await cartsManager.addProductToCart(cid, pid);
     res.send({ status: "succes", payload: addProductCart });
   } catch (err) {
@@ -45,8 +44,8 @@ router.post("/:cid/:pid", async (req, res) => {
 
 router.put("/:cid/:pid", async (req, res) => {
   try {
-    const { cid } = req.params.cid;
-    const { pid } = req.params.pid;
+    const cid = req.params.cid;
+    const pid = req.params.pid;
     const deletedProductCart = await cartsManager.deleteProductToCart(cid, pid);
     res.send({ status: "succes", payload: deletedProductCart });
   } catch (err) {

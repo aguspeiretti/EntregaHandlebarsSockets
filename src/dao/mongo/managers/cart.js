@@ -7,7 +7,6 @@ export default class CartsManager {
   };
 
   getCartById = (param) => {
-    console.log("hola", param);
     return cartsModel.findById(param);
   };
 
@@ -15,9 +14,10 @@ export default class CartsManager {
     return cartsModel.create(product);
   };
 
-  addProductToCart = (cid, pid) => {
+  addProductToCart = async (cid, pid) => {
     //verifico si existe el carrito
-    const cart = cartsModel.findById(cid);
+    console.log(cid, pid);
+    const cart = await cartsModel.findById(cid);
     if (!cart) {
       console.log("ese carrito no existe");
     }
@@ -33,7 +33,7 @@ export default class CartsManager {
     }
 
     //actualizo el total amount del carrito
-    const product = productModel.findById(pid);
+    const product = await productModel.findById(pid);
     cart.totalAmount += product.price;
 
     //ahora gusrdo todo esto en el carrito con save

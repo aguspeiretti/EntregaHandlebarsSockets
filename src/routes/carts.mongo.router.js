@@ -20,10 +20,27 @@ router.post("/", async (req, res) => {
     return res.status(404).send({ status: "error", error: "cart not created" });
   }
 });
+router.post("/:cid/:pid", async (req, res) => {
+  try {
+    const { cid } = req.params.cid;
+    const { pid } = req.params.pid;
+    const addProductCart = await cartServices.addProductToCart(cid, pid);
+    res.send({ status: "succes", payload: addProductCart });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-router.get("/:cid", async (req, res) => {});
-
-router.put("/:cid", async (req, res) => {});
+router.put("/:cid/:pid", async (req, res) => {
+  try {
+    const { cid } = req.params.cid;
+    const { pid } = req.params.pid;
+    const deletedProductCart = await cartServices.deleteProductToCart(cid, pid);
+    res.send({ status: "succes", payload: deletedProductCart });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 router.delete("/:cid", async (req, res) => {
   const { cid } = req.params;

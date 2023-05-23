@@ -24,7 +24,7 @@ router.post("/:cid/:pid", async (req, res) => {
   try {
     const { cid } = req.params.cid;
     const { pid } = req.params.pid;
-    const addProductCart = await cartServices.addProductToCart(cid, pid);
+    const addProductCart = await cartsManager.addProductToCart(cid, pid);
     res.send({ status: "succes", payload: addProductCart });
   } catch (err) {
     console.log(err);
@@ -35,7 +35,7 @@ router.put("/:cid/:pid", async (req, res) => {
   try {
     const { cid } = req.params.cid;
     const { pid } = req.params.pid;
-    const deletedProductCart = await cartServices.deleteProductToCart(cid, pid);
+    const deletedProductCart = await cartsManager.deleteProductToCart(cid, pid);
     res.send({ status: "succes", payload: deletedProductCart });
   } catch (err) {
     console.log(err);

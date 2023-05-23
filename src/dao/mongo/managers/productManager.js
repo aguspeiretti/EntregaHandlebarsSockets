@@ -9,12 +9,12 @@ export default class ProductsManager {
     return productModel.findOne(params).lean();
   };
 
-  createProduct = (company) => {
-    return productModel.create(company);
+  createProduct = (product) => {
+    return productModel.create(product);
   };
 
-  updateproduct = (id, company) => {
-    return productModel.findByIdAndUpdate(id, { $set: company });
+  updateproduct = (id, product => {
+    return productModel.findByIdAndUpdate(id, { $set: product });
   };
 
   deleteProduct = (id) => {

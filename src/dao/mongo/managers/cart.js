@@ -6,16 +6,13 @@ export default class CartsManager {
     return cartsModel.find(params).lean();
   };
 
-  getCartById = (cid) => {
-    return cartModel.findById(cid);
+  getCartById = (param) => {
+    console.log("hola", param);
+    return cartsModel.findById(param);
   };
 
   createCart = (product) => {
     return cartsModel.create(product);
-  };
-
-  deleteCart = (cid) => {
-    return cartsModel.findByIdAndDelete(cid);
   };
 
   addProductToCart = (cid, pid) => {
@@ -25,6 +22,7 @@ export default class CartsManager {
       console.log("ese carrito no existe");
     }
     //si esta el produc sumo uno al quantity
+    console.log(cart);
     const productIsInCart = cart.products.find(
       (product) => product.product.toString() === pid
     );
@@ -64,5 +62,9 @@ export default class CartsManager {
     //guardo los cambios del carrito:
     cart.save();
     return cart;
+  };
+
+  deleteCart = (cid) => {
+    return cartsModel.findByIdAndDelete(cid);
   };
 }

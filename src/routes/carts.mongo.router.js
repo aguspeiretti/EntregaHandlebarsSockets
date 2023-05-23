@@ -11,6 +11,18 @@ router.get("/", async (req, res) => {
   const carts = await cartsManager.getCarts();
   res.send(carts);
 });
+
+router.get("/:cid", async (req, res) => {
+  try {
+    const { cid } = req.params.cid;
+    console.log(cid);
+    const carts = await cartsManager.getCartById(cid);
+    console.log(carts);
+    res.send({ status: "succes", payload: carts });
+  } catch (err) {
+    console.log(err);
+  }
+});
 router.post("/", async (req, res) => {
   try {
     cartsManager.createCart();

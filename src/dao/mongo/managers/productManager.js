@@ -13,7 +13,7 @@ export default class ProductsManager {
     return productModel.create(product);
   };
 
-  updateproduct = (id, product => {
+  updateproduct = (id, product) => {
     return productModel.findByIdAndUpdate(id, { $set: product });
   };
 

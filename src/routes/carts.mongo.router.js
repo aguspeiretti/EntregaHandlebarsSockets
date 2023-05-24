@@ -14,9 +14,10 @@ router.get("/", async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
   try {
-    const cid = req.params.cid;
-    const carts = await cartsManager.getCartById(cid);
-    console.log(carts);
+    const { cid } = req.params;
+    const carts = await cartsManager.getCartById({ _id: cid });
+    if (!carts)
+      res.status(404).send({ status: "error", error: "product not found" });
     res.send({ status: "succes", payload: carts });
   } catch (err) {
     console.log(err);
@@ -33,8 +34,8 @@ router.post("/", async (req, res) => {
 });
 router.post("/:cid/:pid", async (req, res) => {
   try {
-    const cid = req.params.cid;
-    const pid = req.params.pid;
+    const { cid } = req.params;
+    const { pid } = req.params;
     const addProductCart = await cartsManager.addProductToCart(cid, pid);
     res.send({ status: "succes", payload: addProductCart });
   } catch (err) {

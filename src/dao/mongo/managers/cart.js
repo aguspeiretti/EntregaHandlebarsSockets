@@ -10,59 +10,33 @@ export default class CartsManager {
     return cartsModel.findById(param);
   };
 
-  createCart = (product) => {
-    return cartsModel.create(product);
+  createCart = (cart) => {
+    return cartsModel.create(cart);
   };
 
   addProductToCart = async (cid, pid) => {
-    //verifico si existe el carrito
-    console.log(cid, pid);
-    const cart = await cartsModel.findById(cid);
+    const cart = await this.getCartById(cid);
+    const productToAdd = await productModel.findById(pid);
+    //ver si existe el carrito
     if (!cart) {
-      console.log("ese carrito no existe");
+      console.log("el carrito no existe");
     }
-    //si esta el produc sumo uno al quantity
-    console.log(cart);
-    const productIsInCart = cart.products.find(
-      (product) => product.product.toString() === pid
-    );
-    if (productIsInCart) {
-      productIsInCart.quantity += 1;
-    } else {
-      cart.products.push({ product: pid });
+    //ver si el producto existe
+    if (!productToAdd) {
+      console.log("el producto no existe");
     }
-
-    //actualizo el total amount del carrito
-    const product = await productModel.findById(pid);
-    cart.totalAmount += product.price;
-
-    //ahora gusrdo todo esto en el carrito con save
-    cart.save();
-    return cart;
-  };
-
-  deleteProductToCart = (cid, pid) => {
-    const cart = cartsModel.findById(cid);
-    if (!cart) {
-      console.log("carrito no encontrado");
-    }
-
-    const productIndex = cart.products.findIndex((p) => {
-      p.product.toString() === pid;
+    console.log(cart.products, productToAdd._id);
+    //ver si el producto esta en el carrito
+    const isInCart = cart.products.find((p) => {
+      p.products === productToAdd._id;
     });
-    if (productIndex === -1) {
-      console.log("Este Producto no esta en el carrito");
+    if (!isInCart) {
+      cart.products.push({ product: pid, quantity: 1 });
     }
-    //ahora le resto el precio al totalAmount:
-
-    const product = productModel.findById(pid);
-    cart.totalAmount -= product.price * cart.products[productIndex].quantity;
-    //borro el profucto del carrito:
-    cart.products.splice(productIndex, 1);
-    //guardo los cambios del carrito:
     cart.save();
-    return cart;
   };
+
+  deleteProductToCart = (cid, pid) => {};
 
   deleteCart = (cid) => {
     return cartsModel.findByIdAndDelete(cid);

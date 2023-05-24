@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
 
 router.get("/:pid", async (req, res) => {
   const { pid } = req.params;
-  const products = await productsManager.getProductsBy({ _id: pid });
+  const products = await productsManager.getProductsById({ _id: pid });
   if (!products)
     res.status(404).send({ status: "error", error: "product not found" });
   res.send({ status: "succes", payload: products });

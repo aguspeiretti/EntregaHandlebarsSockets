@@ -3,7 +3,7 @@ import productModel from "../models/products.js";
 
 export default class CartsManager {
   getCarts = (params) => {
-    return cartsModel.find(params).lean();
+    return cartsModel.find(params).populate("products.product").lean();
   };
 
   getCartById = (param) => {
@@ -23,14 +23,14 @@ export default class CartsManager {
       }
       // Busca el índice del producto en el arreglo de productos
       const existingProductIndex = cart.products.findIndex(
-        (product) => product.id === pid
+        (product) => product.product == pid
       );
       if (existingProductIndex !== -1) {
         // Si el producto ya existe en el carrito, incrementa la cantidad en 1
         cart.products[existingProductIndex].quantity += 1;
       } else {
         // Si el producto no existe en el carrito, agrégalo al arreglo de productos
-        cart.products.push({ id: pid, quantity: 1 });
+        cart.products.push({ product: pid, quantity: 1 });
       }
       // Guarda los cambios en la base de datos
       cart = await cart.save();

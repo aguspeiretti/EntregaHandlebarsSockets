@@ -55,8 +55,11 @@ router.put("/:cid/:pid", async (req, res) => {
 });
 
 router.delete("/:cid", async (req, res) => {
-  const { cid } = req.params;
-  await cartsManager.deleteCart(cid);
-  const carts = await cartsManager.getCarts();
-  res.sendStatus(410);
+  try {
+    const { cid } = req.params;
+    const deletedCart = await cartsManager.deleteCart(cid);
+    res.send({ status: "success", payload: deletedCart });
+  } catch (err) {
+    console.log(err);
+  }
 });

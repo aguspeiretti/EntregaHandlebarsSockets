@@ -76,6 +76,8 @@ h1 {
   color: #e7832b;
   font-size: 15px;
   font-weight: bold;
+  background-color: #1e1e1e;
+  color: white;
 }
 #controles {
   margin-top: 30px;
@@ -98,12 +100,16 @@ h1 {
   border-radius: 15px;
   border: 2px solid #e7832b !important;
   margin-top: 30px;
+  background-color: #1e1e1e;
+  color: white;
 }
 #controles select {
   height: 30px;
   padding: 5px;
   border-radius: 15px;
   border: 2px solid #e7832b !important;
+  background-color: #1e1e1e;
+  color: white;
 }
 .cardContainer button {
   margin-top: 10px;
@@ -111,4 +117,9 @@ h1 {
   padding: 5px;
   border-radius: 15px;
   border: 2px solid #e7832b !important;
+  background-color: #1e1e1e;
+  color: white;
+}
+#labels {
+  color: white;
 }

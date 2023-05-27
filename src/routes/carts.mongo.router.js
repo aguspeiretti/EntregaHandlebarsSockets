@@ -44,6 +44,38 @@ router.post("/:cid/:pid", async (req, res) => {
 });
 
 router.put("/:cid/:pid", async (req, res) => {
+  const { cid, pid } = req.params;
+  const newQuantity = req.body.quantity;
+
+  try {
+    const cart = await cartsManager.getCarts({ _id: cid });
+
+    if (!cart) {
+      return res.status(404).json({ error: "Carrito no encontrado" });
+    }
+
+    const productIndex = cart.products.findIndex(
+      (product) => product._id.toString() === pid
+    );
+
+    if (productIndex === -1) {
+      return res
+        .status(404)
+        .json({ error: "Producto no encontrado en el carrito" });
+    }
+
+    cart.products[productIndex].quantity = newQuantity;
+
+    const updatedCart = await cartsManager.updateCart(cid, cart);
+
+    return res.json(updatedCart);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+router.delete("/:cid/products/:pid", async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;

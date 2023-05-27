@@ -1,7 +1,24 @@
-<div>
-  <h1>Cart!</h1>
-  {{#each carts}}
-    <div><p>hola</p></div>
+<div id="cartContainer">
+  <h1>Cart</h1>
+  <div id="productContainer">
+    
+ {{#each carts}}
+   
+      {{#each products}}
+       <div id="cardCart">
+      <div> 
+      <img src="{{product.thumbnail}}" alt="">
+      <p>Producto :{{product.title}}</p>
+      </div>
+      <p>Categoria :{{product.category}}</p>
+      <p>Cantindad :{{quantity}}</p>
+      </div>
+       {{/each}}
+  
   {{/each}}
+  
+  </div>
+  
+ 
 
 </div>

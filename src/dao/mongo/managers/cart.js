@@ -3,7 +3,7 @@ import productModel from "../models/products.js";
 
 export default class CartsManager {
   getCarts = (params) => {
-    return cartsModel.find(params).populate("products.product").lean();
+    return cartsModel.find(params).lean();
   };
 
   getCartById = (param) => {
@@ -12,6 +12,10 @@ export default class CartsManager {
 
   createCart = (cart) => {
     return cartsModel.create(cart);
+  };
+
+  updateCart = async (id, product) => {
+    return await cartsModel.replaceOne({ _id: id }, product);
   };
 
   addProductToCart = async (cid, pid) => {

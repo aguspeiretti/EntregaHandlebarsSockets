@@ -1,12 +1,12 @@
 <div id="cartContainer">
-  <h1>Carts</h1>
+    
+  <h1>Cart</h1>
+
   <div id="productContainer">
     
- {{#each carts}}
-   <div class="carritoSeparado">
-    <p>Carrito : {{_id}}</p>
-      {{#each products}}
-       <div id="cardCart">
+    {{#each cartSelected.products}}
+  
+        <div id="cardCart">
       <div> 
       <img src="{{product.thumbnail}}" alt="">
       <p>Producto :{{product.title}}</p>
@@ -14,15 +14,8 @@
       <p>Categoria :{{product.category}}</p>
       <p>Cantindad :{{quantity}}</p>
       </div>
-       {{/each}}
 
-   </div>
-      
-  
-  {{/each}}
-  
+    {{/each}}
   </div>
-  
- 
 
 </div>

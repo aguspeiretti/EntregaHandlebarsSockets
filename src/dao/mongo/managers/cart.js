@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import cartsModel from "../models/carts.js";
 import productModel from "../models/products.js";
 
@@ -73,6 +74,34 @@ export default class CartsManager {
       return deletedCart;
     } catch (error) {
       throw new Error(error.message);
+    }
+  };
+
+  updateProductInCart = async (cid, pid, newQuantity) => {
+    try {
+      const cartToUpdate = await cartsModel.findById(cid);
+      if (!cartToUpdate) {
+        throw new Error("Carrito no encontrado");
+      }
+      const existingProductIndex = cartToUpdate.products.findIndex(
+        (product) => product.product == pid
+      );
+      if (existingProductIndex === -1) {
+        throw new Error("Producto no encontrado en el carrito");
+      }
+      console.log(cartToUpdate.products[existingProductIndex]);
+
+      const product = cartToUpdate.products[existingProductIndex].product;
+
+      cartToUpdate.products[existingProductIndex] = {
+        product: product,
+        quantity: newQuantity.quantity,
+      };
+
+      const updatedCart = await cartToUpdate.save();
+      return updatedCart;
+    } catch (error) {
+      console.log(error);
     }
   };
 }

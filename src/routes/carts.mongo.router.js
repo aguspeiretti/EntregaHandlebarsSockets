@@ -63,3 +63,20 @@ router.delete("/:cid", async (req, res) => {
     console.log(err);
   }
 });
+
+router.put("/:cid/products/:pid", async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+    const newQuantity = req.body;
+    const updatedCart = await cartsManager.updateProductInCart(
+      cid,
+      pid,
+      newQuantity
+    );
+
+    res.send({ status: "success", payload: updatedCart });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ status: "error", error: err.message });
+  }
+});

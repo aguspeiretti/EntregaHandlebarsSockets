@@ -42,9 +42,14 @@ router.get("/realTimeProducts", async (req, res) => {
 
 router.get("/cart", async (req, res) => {
   const carts = await cartsManager.getCarts();
-  console.log(carts);
-  console.log(carts);
   res.render("cart", { carts, css: "cart" });
+});
+
+router.get("/cart/:cid", async (req, res) => {
+  const cid = req.params.cid;
+  const carts = await cartsManager.getCarts();
+  const cartSelected = carts.find((cart) => cart._id == cid);
+  res.render("oneCart", { cartSelected, css: "cart" });
 });
 
 router.get("/chat", async (req, res) => {

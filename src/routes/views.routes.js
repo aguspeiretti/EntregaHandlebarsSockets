@@ -37,7 +37,6 @@ router.get("/", async (req, res) => {
 });
 router.get("/realTimeProducts", async (req, res) => {
   res.render("realTimeProducts", { css: "realTimeProducts" });
-  res.send();
 });
 
 router.get("/cart", async (req, res) => {
@@ -53,7 +52,7 @@ router.get("/cart/:cid", async (req, res) => {
 });
 
 router.get("/chat", async (req, res) => {
-  res.render("chat");
+  res.render("chat", { css: "chat" });
 });
 
 export default router;

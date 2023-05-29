@@ -30,6 +30,13 @@ chatBox.addEventListener("keyup", (evt) => {
   }
 });
 
+const sendButton = document.getElementById("sendButton");
+sendButton.addEventListener("click", () => {
+  if (chatBox.value.trim().length > 0) {
+    socket.emit("message", { user, message: chatBox.value.trim() });
+  }
+});
+
 socket.on("logs", (data) => {
   const logs = document.getElementById("logs");
   let message = "";

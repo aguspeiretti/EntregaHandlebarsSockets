@@ -57,11 +57,11 @@ router.get("/chat", async (req, res) => {
 });
 
 router.get("/register", async (req, res) => {
-  res.render("register");
+  res.render("register", { css: "register" });
 });
 
 router.get("/login", async (req, res) => {
-  res.render("login");
+  res.render("login", { css: "login" });
 });
 
 export default router;

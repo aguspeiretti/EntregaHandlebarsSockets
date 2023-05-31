@@ -9,6 +9,15 @@ logoutButton.addEventListener("click", function () {
     .then((response) => {
       if (response.ok) {
         // Redirige a la página de inicio de sesión
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+          title: `Cerrando sesion...`,
+          icon: "success",
+        });
+
         window.location.replace("/login");
       }
     })

@@ -24,5 +24,14 @@ form.addEventListener("submit", async (event) => {
       icon: "success",
     });
     window.location.replace("/");
+  } else {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2500,
+      title: `Usuario o clave incorrectos`,
+      icon: "error",
+    });
   }
 });

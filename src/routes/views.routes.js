@@ -9,7 +9,19 @@ const productsManager = new ProductsManager();
 const cartsManager = new CartsManager();
 
 router.get("/", async (req, res) => {
-  const { page = 1, sort = 1, limit = 3 } = req.query;
+  const { page = 1 } = req.query;
+  let { limit = 3, sort = 1 } = req.query;
+
+  if (req.query.limit) {
+    req.session.limit = req.query.limit;
+  } else if (req.session.limit) {
+    limit = req.session.limit;
+  }
+  if (req.query.sort) {
+    req.session.sort = req.query.sort;
+  } else if (req.session.sort) {
+    sort = req.session.sort;
+  }
 
   const options = {
     page,

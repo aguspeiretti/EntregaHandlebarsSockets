@@ -10,11 +10,23 @@ body {
   align-items: center;
   background-color: rgb(38, 38, 38);
 }
-
+.saludo {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.saludo p {
+  color: #e7832b;
+}
 h1 {
   color: #e7832b;
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 
 #product-container {

@@ -8,6 +8,7 @@ const schema = new mongoose.Schema(
     last_name: String,
     email: String,
     password: String,
+    role: { type: String, default: "usuario" },
   },
 
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }

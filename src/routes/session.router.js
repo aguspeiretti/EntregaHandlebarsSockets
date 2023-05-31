@@ -18,11 +18,21 @@ router.post("/login", async (req, res) => {
       .status(400)
       .send({ status: "error ", error: "usuario no encontrado" });
   }
-  //si existe le creo una sesion
-  req.session.user = {
-    name: `${user.first_name} ${user.last_name}`,
-    email: user.email,
-  };
+  if (email === "adminCoder@coder.com" && password === "123456") {
+    // si es el usuario administrador
+    req.session.user = {
+      name: "Coder Admin",
+      email: user.email,
+      role: "admin",
+    };
+  } else {
+    // si es un usuario normal
+    req.session.user = {
+      name: `${user.first_name} ${user.last_name}`,
+      email: user.email,
+      role: "usuario",
+    };
+  }
   res.send({ status: "succes" });
 });
 export default router;

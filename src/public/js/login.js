@@ -15,6 +15,14 @@ form.addEventListener("submit", async (event) => {
   });
   const resposeData = await response.json();
   if (resposeData.status === "succes") {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      title: `Logueado`,
+      icon: "success",
+    });
     window.location.replace("/");
   }
 });

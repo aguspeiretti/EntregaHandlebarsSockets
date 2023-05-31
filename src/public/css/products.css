@@ -23,6 +23,26 @@ body {
 .saludo p {
   color: #e7832b;
 }
+.logoutContainer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.logoutContainer button {
+  background-color: transparent;
+  border: 2px solid #e7832b;
+  width: 100px;
+  height: 30px;
+  border-radius: 40px;
+  color: white;
+  margin-top: 20px;
+}
+
 h1 {
   color: #e7832b;
   margin-top: 30px;

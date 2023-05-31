@@ -35,4 +35,19 @@ router.post("/login", async (req, res) => {
   }
   res.send({ status: "succes" });
 });
+
+router.post("/logout", (req, res) => {
+  // Destruye la sesión
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error al destruir la sesión:", err);
+      return res
+        .status(500)
+        .send({ status: "error", error: "Error al cerrar sesión" });
+    }
+
+    // Redirige al cliente a la página de inicio de sesión
+    res.sendStatus(200);
+  });
+});
 export default router;

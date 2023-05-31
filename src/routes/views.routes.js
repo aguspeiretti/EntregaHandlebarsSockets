@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
   const products = docs;
 
   res.render("home", {
+    user: req.session.user,
     products,
     page: rest.page,
     hasPrevPage,
@@ -53,6 +54,14 @@ router.get("/cart/:cid", async (req, res) => {
 
 router.get("/chat", async (req, res) => {
   res.render("chat", { css: "chat" });
+});
+
+router.get("/register", async (req, res) => {
+  res.render("register");
+});
+
+router.get("/login", async (req, res) => {
+  res.render("login");
 });
 
 export default router;

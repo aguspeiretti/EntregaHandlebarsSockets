@@ -1,12 +1,15 @@
 import express from "express";
 import ProductsRouter from "./routes/products.mongoose.router.js";
 import CartsRouter from "./routes/carts.mongo.router.js";
+import sessionRouter from "./routes/session.router.js";
 import __dirname from "./utils.js";
 import viewsRouter from "./routes/views.routes.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import ProductsManager from "./dao/mongo/managers/productManager.js";
 import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
+import session from "express-session";
 import messagesModel from "./dao/mongo/models/messages.js";
 import productModel from "./dao/mongo/models/products.js";
 
@@ -14,6 +17,20 @@ const app = express();
 const connection = mongoose.connect(
   "mongodb+srv://aguspeiretti:123@agusdb.7mmevwy.mongodb.net/ecommers?retryWrites=true&w=majority"
 );
+
+app.use(
+  session({
+    store: new MongoStore({
+      mongoUrl:
+        "mongodb+srv://aguspeiretti:123@agusdb.7mmevwy.mongodb.net/ecommers?retryWrites=true&w=majority",
+      ttl: 3600,
+    }),
+    secret: "sushiapp",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
 const server = app.listen(8080, () => console.log("escuchando"));
 const io = new Server(server);
 
@@ -26,6 +43,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/products", ProductsRouter);
 app.use("/api/carts", CartsRouter);
+app.use("/api/sessions", sessionRouter);
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);

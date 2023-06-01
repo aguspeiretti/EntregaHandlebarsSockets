@@ -1,17 +1,19 @@
 import { Router } from "express";
-import userModel from "../dao/mongo/models/user.js";
+import UserManager from "../dao/mongo/managers/users.js";
 
 const router = Router();
 
+const userManager = new UserManager();
+
 router.post("/register", async (req, res) => {
-  const result = userModel.create(req.body);
+  const result = userManager.createUsers(req.body);
   res.send({ status: "succes", payload: result });
 });
 
 router.post("/login", async (req, res) => {
   //buscar el usuario
   const { email, password } = req.body;
-  const user = await userModel.findOne({ email, password });
+  const user = await userManager.getUsersBy({ email, password });
   console.log(user);
   if (!user) {
     return res
@@ -46,7 +48,6 @@ router.post("/logout", (req, res) => {
         .send({ status: "error", error: "Error al cerrar sesión" });
     }
 
-    // Redirige al cliente a la página de inicio de sesión
     res.sendStatus(200);
   });
 });

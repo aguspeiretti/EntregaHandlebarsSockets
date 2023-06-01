@@ -9,10 +9,11 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: rgb(38, 38, 38);
+  overflow-x: hidden;
 }
 .saludo {
   position: absolute;
-  top: 10px;
+  top: 85px;
   left: 20px;
   font-size: 10px;
   display: flex;
@@ -25,7 +26,7 @@ body {
 }
 .logoutContainer {
   position: absolute;
-  top: 20px;
+  top: 85px;
   right: 20px;
   font-size: 10px;
   display: flex;

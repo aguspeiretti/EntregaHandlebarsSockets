@@ -11,6 +11,7 @@ body {
   background-color: rgb(38, 38, 38);
   color: #e7832b;
   justify-content: center;
+  overflow-x: hidden;
 }
 .registerContainer {
   display: flex;

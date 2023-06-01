@@ -9,6 +9,7 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: rgb(38, 38, 38);
+  overflow-x: hidden;
 }
 #product-container {
   width: 80vw;

@@ -10,7 +10,7 @@ const cartsManager = new CartsManager();
 
 router.get("/", async (req, res) => {
   const { page = 1 } = req.query;
-  let { limit = 3, sort = 1 } = req.query;
+  let { limit = 5, sort = 1 } = req.query;
 
   if (req.query.limit) {
     req.session.limit = req.query.limit;

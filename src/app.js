@@ -9,9 +9,9 @@ import { Server } from "socket.io";
 import ProductsManager from "./dao/mongo/managers/productManager.js";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
-import session from "express-session";
 import messagesModel from "./dao/mongo/models/messages.js";
 import productModel from "./dao/mongo/models/products.js";
+import session from "express-session";
 
 const app = express();
 const connection = mongoose.connect(
@@ -23,7 +23,7 @@ app.use(
     store: new MongoStore({
       mongoUrl:
         "mongodb+srv://aguspeiretti:123@agusdb.7mmevwy.mongodb.net/ecommers?retryWrites=true&w=majority",
-      ttl: 3600,
+      ttl: 36000,
     }),
     secret: "sushiapp",
     resave: false,
@@ -44,13 +44,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/products", ProductsRouter);
 app.use("/api/carts", CartsRouter);
 app.use("/api/sessions", sessionRouter);
+app.use("/", viewsRouter);
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
 app.use(express.static(`${__dirname}/public`));
-
-app.use("/", viewsRouter);
 
 io.on("connection", async (socket) => {
   console.log("nuevo cliente conectado");

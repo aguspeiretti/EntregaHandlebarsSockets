@@ -1,12 +1,26 @@
 import { Router } from "express";
 import UserManager from "../dao/mongo/managers/users.js";
+import { createHash } from "../utils.js";
 
 const router = Router();
 
 const userManager = new UserManager();
 
 router.post("/register", async (req, res) => {
-  const result = userManager.createUsers(req.body);
+  const { first_name, last_name, email, password } = req.body;
+  const exist = await userManager.getUsersBy({ email });
+  if (exist)
+    return res
+      .status(400)
+      .send({ status: "error", error: "user all ready exist" });
+  const hashedPassword = await createHash(password);
+  const user = {
+    first_name,
+    last_name,
+    email,
+    password: hashedPassword,
+  };
+  const result = userManager.createUsers(user);
   res.send({ status: "succes", payload: result });
 });
 
@@ -20,7 +34,7 @@ router.post("/login", async (req, res) => {
       .status(400)
       .send({ status: "error ", error: "usuario no encontrado" });
   }
-  if (email === "adminCoder@coder.com" && password === "123456") {
+  if (email === "adminCoder@coder.com" && password === " adminCod3r123") {
     // si es el usuario administrador
     req.session.user = {
       name: "Coder Admin",

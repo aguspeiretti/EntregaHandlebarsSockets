@@ -2,13 +2,14 @@ import { Router } from "express";
 import ProductsManager from "../dao/mongo/managers/productManager.js";
 import CartsManager from "../dao/mongo/managers/cart.js";
 import productModel from "../dao/mongo/models/products.js";
+import { privacy } from "../middlewares/auth.js";
 
 const router = Router();
 
 const productsManager = new ProductsManager();
 const cartsManager = new CartsManager();
 
-router.get("/", async (req, res) => {
+router.get("/", privacy("PRIVATE"), async (req, res) => {
   const { page = 1 } = req.query;
   let { limit = 5, sort = 1 } = req.query;
 
@@ -48,7 +49,7 @@ router.get("/", async (req, res) => {
     css: "products",
   });
 });
-router.get("/realTimeProducts", async (req, res) => {
+router.get("/realTimeProducts", privacy("PRIVATE"), async (req, res) => {
   res.render("realTimeProducts", { css: "realTimeProducts" });
 });
 
@@ -68,11 +69,11 @@ router.get("/chat", async (req, res) => {
   res.render("chat", { css: "chat" });
 });
 
-router.get("/register", async (req, res) => {
+router.get("/register", privacy("NO_AUTHENTICATED"), async (req, res) => {
   res.render("register", { css: "register" });
 });
 
-router.get("/login", async (req, res) => {
+router.get("/login", privacy("NO_AUTHENTICATED"), async (req, res) => {
   res.render("login", { css: "login" });
 });
 

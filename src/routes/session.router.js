@@ -9,10 +9,11 @@ const userManager = new UserManager();
 router.post("/register", async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
   const exist = await userManager.getUsersBy({ email });
-  if (exist)
+  if (exist) {
     return res
       .status(400)
-      .send({ status: "error", error: "user all ready exist" });
+      .send({ status: "error", error: "user allready exist" });
+  }
   const hashedPassword = await createHash(password);
   const user = {
     first_name,
@@ -21,42 +22,41 @@ router.post("/register", async (req, res) => {
     password: hashedPassword,
   };
   const result = userManager.createUsers(user);
+
   res.send({ status: "succes", payload: result });
 });
 
 router.post("/login", async (req, res) => {
   //buscar el usuario
   const { email, password } = req.body;
-  const user = await userManager.getUsersBy({ email });
-  if (!user) {
-    return res
-      .status(400)
-      .send({ status: "error ", error: "usuario no encontrado" });
-  }
 
   if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
     // si es el usuario administrador
     req.session.user = {
       name: "Coder Admin",
-      email: user.email,
+      email: "...",
       role: "admin",
     };
-  } else {
-    // si es un usuario normal
-    const isValidPassword = await validatePassword(password, user.password);
-    console.log(password, user.password);
-    console.log(isValidPassword);
-    if (!isValidPassword) {
-      return res
-        .status(400)
-        .send({ status: "error ", error: "clave invalida" });
-    }
-    req.session.user = {
-      name: `${user.first_name} ${user.last_name}`,
-      email: user.email,
-      role: "usuario",
-    };
+    res.send({ status: "succes" });
   }
+  const user = await userManager.getUsersBy({ email });
+  if (!user)
+    return res
+      .status(400)
+      .send({ status: "error", error: "usuario o clave incorrectas" });
+
+  const isValidPassword = await validatePassword(password, user.password);
+
+  if (!isValidPassword)
+    return res
+      .status(400)
+      .send({ status: "error", error: "clave incorrectas" });
+
+  req.session.user = {
+    name: `${user.first_name} ${user.last_name}`,
+    email: user.email,
+    role: "user",
+  };
   res.send({ status: "succes" });
 });
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserManager from "../dao/mongo/managers/users.js";
-import { createHash } from "../utils.js";
+import { createHash, validatePassword } from "../utils.js";
 
 const router = Router();
 
@@ -27,13 +27,13 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   //buscar el usuario
   const { email, password } = req.body;
-  const user = await userManager.getUsersBy({ email, password });
-  console.log(user);
+  const user = await userManager.getUsersBy({ email });
   if (!user) {
     return res
       .status(400)
       .send({ status: "error ", error: "usuario no encontrado" });
   }
+
   if (email === "adminCoder@coder.com" && password === " adminCod3r123") {
     // si es el usuario administrador
     req.session.user = {
@@ -43,6 +43,14 @@ router.post("/login", async (req, res) => {
     };
   } else {
     // si es un usuario normal
+    const isValidPassword = await validatePassword(password, user.password);
+    console.log(password, user.password);
+    console.log(isValidPassword);
+    if (!isValidPassword) {
+      return res
+        .status(400)
+        .send({ status: "error ", error: "clave invalida" });
+    }
     req.session.user = {
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,

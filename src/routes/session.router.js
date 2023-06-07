@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
       .send({ status: "error ", error: "usuario no encontrado" });
   }
 
-  if (email === "adminCoder@coder.com" && password === " adminCod3r123") {
+  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
     // si es el usuario administrador
     req.session.user = {
       name: "Coder Admin",

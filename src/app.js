@@ -19,6 +19,19 @@ const app = express();
 const connection = mongoose.connect(
   "mongodb+srv://aguspeiretti:123@agusdb.7mmevwy.mongodb.net/ecommers?retryWrites=true&w=majority"
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(`${__dirname}/public`));
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+app.engine("handlebars", handlebars.engine());
+app.set("views", `${__dirname}/views`);
+app.set("view engine", "handlebars");
+
+app.use(passport.initialize());
+initializePassport();
 
 app.use(
   session({
@@ -36,25 +49,10 @@ app.use(
 const server = app.listen(8080, () => console.log("escuchando"));
 const io = new Server(server);
 
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
-
-app.use(passport.initialize());
-initializePassport();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use("/api/products", ProductsRouter);
 app.use("/api/carts", CartsRouter);
 app.use("/api/sessions", sessionRouter);
 app.use("/", viewsRouter);
-
-app.engine("handlebars", handlebars.engine());
-app.set("views", `${__dirname}/views`);
-app.set("view engine", "handlebars");
-app.use(express.static(`${__dirname}/public`));
 
 io.on("connection", async (socket) => {
   console.log("nuevo cliente conectado");

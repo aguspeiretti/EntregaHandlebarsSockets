@@ -1,10 +1,7 @@
 import { Router } from "express";
-import UserManager from "../dao/mongo/managers/users.js";
 import passport from "passport";
 
 const router = Router();
-
-const userManager = new UserManager();
 
 router.post(
   "/register",
@@ -12,7 +9,11 @@ router.post(
     failureRedirect: "registerFail",
   }),
   async (req, res) => {
-    res.send({ status: "succes", messages: "registered" });
+    try {
+      res.send({ status: "success", messages: "registered" });
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -20,6 +21,26 @@ router.get("/registerFail", (req, res) => {
   console.log(req.session.messages);
   res.status(400).send({ status: "error", error: req.session.messages });
 });
+
+// router.post(
+//   "/login",
+//   passport.authenticate("login", {
+//     failureRedirect: "/api/sessions/loginFail",
+//   }),
+//   async (req, res) => {
+//     req.session.user = {
+//       name: req.user.name,
+//       role: req.user.role,
+//       email: req.user.email,
+//     };
+
+//     res.send({ status: "success", messages: "registered" });
+//   }
+// );
+// router.get("/loginFail", (req, res) => {
+//   console.log(req.session.messages);
+//   res.status(400).send({ status: "error", error: req.session.messages });
+// });
 
 router.post(
   "/login",
@@ -30,10 +51,10 @@ router.post(
     req.session.user = {
       name: req.user.name,
       role: req.user.role,
+      id: req.user.id,
       email: req.user.email,
     };
-
-    res.sendStatus(200);
+    return res.send({ status: "success", messages: "registered" });
   }
 );
 router.get("/loginFail", (req, res) => {
@@ -50,6 +71,8 @@ router.post("/logout", (req, res) => {
         .status(500)
         .send({ status: "error", error: "Error al cerrar sesión" });
     }
+
+    res.send({ status: "success", message: "Sesión cerrada correctamente" });
   });
 });
 

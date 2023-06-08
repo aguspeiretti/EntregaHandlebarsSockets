@@ -13,6 +13,7 @@ form.addEventListener("submit", async (event) => {
     },
   });
   const resposeData = await response.json();
+  console.log(resposeData);
   if (resposeData.status === "succes") {
     Swal.fire({
       toast: true,

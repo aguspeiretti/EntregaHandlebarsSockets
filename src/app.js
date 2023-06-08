@@ -12,6 +12,8 @@ import MongoStore from "connect-mongo";
 import messagesModel from "./dao/mongo/models/messages.js";
 import productModel from "./dao/mongo/models/products.js";
 import session from "express-session";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 const connection = mongoose.connect(
@@ -38,6 +40,9 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
+app.use(passport.initialize());
+initializePassport();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

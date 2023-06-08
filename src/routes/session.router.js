@@ -22,26 +22,6 @@ router.get("/registerFail", (req, res) => {
   res.status(400).send({ status: "error", error: req.session.messages });
 });
 
-// router.post(
-//   "/login",
-//   passport.authenticate("login", {
-//     failureRedirect: "/api/sessions/loginFail",
-//   }),
-//   async (req, res) => {
-//     req.session.user = {
-//       name: req.user.name,
-//       role: req.user.role,
-//       email: req.user.email,
-//     };
-
-//     res.send({ status: "success", messages: "registered" });
-//   }
-// );
-// router.get("/loginFail", (req, res) => {
-//   console.log(req.session.messages);
-//   res.status(400).send({ status: "error", error: req.session.messages });
-// });
-
 router.post(
   "/login",
   passport.authenticate("login", {

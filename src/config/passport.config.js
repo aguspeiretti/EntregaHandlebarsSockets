@@ -28,7 +28,7 @@
 //           };
 //           const result = userManager.createUsers(user);
 
-//           done(null, result, { message: "se creo la sesion" });
+//           done(null, result);
 //         } catch (error) {
 //           done(error);
 //         }
@@ -41,29 +41,31 @@
 //     new LocalStrategy(
 //       { usernameField: "email" },
 //       async (email, password, done) => {
-//         //buscar el usuario
-//         let user;
+//             buscar el usuario
 
 //         if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-//           // si es el usuario administrador
-//           user = {
+//                 si es el usuario administrador
+//           const user = {
+//             id: 0,
 //             name: "Coder Admin",
 //             email: "...",
 //             role: "admin",
 //           };
 //           return done(null, user);
 //         }
+//         let user;
 
 //         user = await userManager.getUsersBy({ email });
-//         if (!user) return res;
-//         done(null, false, { message: "credenciales incorrectas" });
+//         if (!user)
+//           return done(null, false, { message: "credenciales incorrectas" });
 
 //         const isValidPassword = await validatePassword(password, user.password);
 
-//         if (!isValidPassword) return res;
-//         done(null, false, { message: "clave invalida" });
+//         if (!isValidPassword)
+//           return done(null, false, { message: "clave invalida" });
 
 //         user = {
+//           id: user._id,
 //           name: `${user.first_name} ${user.last_name}`,
 //           email: user.email,
 //           role: "user",
@@ -73,11 +75,11 @@
 //     )
 //   );
 //   passport.serializeUser(function (user, done) {
-//     return null, user.id;
+//     return done(null, user.id);
 //   });
 //   passport.deserializeUser(async function (id, done) {
 //     const user = await userManager.getUsersBy({ _id: id });
-//     done(null, user);
+//     return done(null, user);
 //   });
 // };
 
@@ -89,7 +91,7 @@ import UserManager from "../dao/mongo/managers/users.js";
 
 const userManager = new UserManager();
 
-const LocalStrategy = local.Strategy; // UNA ESTRATEGIA LOCAL SIEMPRE SE BASA EN EL USERNAME + PASSWORD
+const LocalStrategy = local.Strategy;
 
 const initializePassportStrategies = () => {
   passport.use(
@@ -114,7 +116,7 @@ const initializePassportStrategies = () => {
             password: hashedPassword,
           };
           const result = await userManager.createUsers(user);
-          //Si todo salió bien, Ahí es cuando done debe finalizar bien.
+          // Si todo salió bien, Ahí es cuando done debe finalizar bien.
           done(null, result);
         } catch (error) {
           done(error);
@@ -128,8 +130,8 @@ const initializePassportStrategies = () => {
     new LocalStrategy(
       { usernameField: "email" },
       async (email, password, done) => {
-        //PASSPORT SÓLO DEBE DEVOLVER AL USUARIO FINAL, ÉL NO ES RESPONSABLE DE LA SESIÓN
-        if (email === "admin@admin.com" && password === "123") {
+        // PASSPORT SÓLO DEBE DEVOLVER AL USUARIO FINAL, ÉL NO ES RESPONSABLE DE LA SESIÓN
+        if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
           //Desde aquí ya puedo inicializar al admin.
           const user = {
             id: 0,
@@ -140,12 +142,12 @@ const initializePassportStrategies = () => {
           return done(null, user);
         }
         let user;
-        //Número 1!!!!! buscar al usuario, ¿existe?
+        //  Número 1!!!!! buscar al usuario, ¿existe?
         user = await userManager.getUsersBy({ email }); //Sólo busco por mail
         if (!user)
           return done(null, false, { message: "Credenciales incorrectas" });
 
-        //Número 2!!!! si sí existe el usuario, VERIFICA SU PASSWORD ENCRIPTADO
+        // Número 2!!!! si sí existe el usuario, VERIFICA SU PASSWORD ENCRIPTADO
 
         const isValidPassword = await validatePassword(password, user.password);
         if (!isValidPassword)
@@ -174,7 +176,7 @@ const initializePassportStrategies = () => {
         name: "ADMIN",
       });
     }
-    const user = await user.findOne({ _id: id });
+    const user = await userManager.getUsersBy({ _id: id });
     return done(null, user);
   });
 };

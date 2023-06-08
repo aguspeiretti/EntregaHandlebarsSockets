@@ -1,31 +1,3 @@
-// const form = document.getElementById("registerForm");
-
-// form.addEventListener("submit", async (event) => {
-//   event.preventDefault();
-//   const data = new FormData(form);
-//   const obj = {};
-//   data.forEach((value, key) => (obj[key] = value));
-//   const response = await fetch("/api/sessions/register", {
-//     method: "POST",
-//     body: JSON.stringify(obj),
-//     headers: {
-//       "content-type": "application/json",
-//     },
-//   });
-//   const resposeData = await response.json();
-
-//   if (resposeData.status === "succes") {
-//     Swal.fire({
-//       toast: true,
-//       position: "top-end",
-//       showConfirmButton: false,
-//       timer: 2000,
-//       title: `Registro completo!`,
-//       icon: "success",
-//     });
-//     window.location.replace("/login");
-//   }
-// });
 const form = document.getElementById("registerForm");
 
 form.addEventListener("submit", async (event) => {
@@ -37,19 +9,18 @@ form.addEventListener("submit", async (event) => {
     method: "POST",
     body: JSON.stringify(obj),
     headers: {
-      "Content-Type": "application/json",
+      "content-type": "application/json",
     },
   });
-  const responseData = await response.json();
-  if (responseData.status === "success") {
-    //redirijo al login
-    //muestro modal
+  const resposeData = await response.json();
+
+  if (resposeData.status === "success") {
     Swal.fire({
       toast: true,
       position: "top-end",
       showConfirmButton: false,
       timer: 2000,
-      title: `Registro Exitoso`,
+      title: `Registro completo!`,
       icon: "success",
     });
     window.location.replace("/login");

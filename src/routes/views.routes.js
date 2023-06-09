@@ -76,5 +76,12 @@ router.get("/register", privacy("NO_AUTHENTICATED"), async (req, res) => {
 router.get("/login", privacy("NO_AUTHENTICATED"), async (req, res) => {
   res.render("login", { css: "login" });
 });
+router.get(
+  "/restorePassword",
+  privacy("NO_AUTHENTICATED"),
+  async (req, res) => {
+    res.render("restorePassword", { css: "login" });
+  }
+);
 
 export default router;

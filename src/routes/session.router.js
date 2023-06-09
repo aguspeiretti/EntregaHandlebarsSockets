@@ -30,6 +30,7 @@ router.post(
   "/login",
   passport.authenticate("login", {
     failureRedirect: "/api/sessions/loginFail",
+    failureMessage: true,
   }),
   async (req, res) => {
     req.session.user = {
@@ -43,6 +44,8 @@ router.post(
 );
 router.get("/loginFail", (req, res) => {
   console.log(req.session.messages);
+  if (req.session.messages.length > 4)
+    return res.status(400).send({ message: "BLOQUEA LOS INTENTOS YA!!" });
   res.status(400).send({ status: "error", error: req.session.messages });
 });
 
@@ -60,18 +63,17 @@ router.post("/logout", (req, res) => {
   });
 });
 
-
 router.post("/restorePassword", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await userManager.getUsersBy({ email });
-  console.log(user);
+
   if (!user)
     return res
       .status(400)
       .send({ status: "error", error: "Usuario no encontrado" });
   const isSamePassword = await validatePassword(password, user.password);
-  console.log(password);
+
   if (isSamePassword)
     return res.status(400).send({
       status: "error",
@@ -83,12 +85,10 @@ router.post("/restorePassword", async (req, res) => {
       { email },
       { $set: { password: newHassedPassword } }
     );
-    console.log(email, newHassedPassword);
   } catch (error) {
     console.log(error);
   }
 
-
-//   return res.send({ status: "success", messages: "reestablecida" });
-// });
+  return res.send({ status: "success", messages: "reestablecida" });
+});
 export default router;

@@ -13,26 +13,25 @@ form.addEventListener("submit", async (event) => {
     },
   });
   const responseData = await response.json();
+  console.log(responseData);
   if (responseData.status === "success") {
-    console.log(responseData);
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      title: `Cambiaste tu pass!`,
+      icon: "success",
+    });
+    window.location.replace("/");
+  } else {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      title: `El password es el mismo que tenias`,
+      icon: "error",
+    });
   }
-  //     Swal.fire({
-  //       toast: true,
-  //       position: "top-end",
-  //       showConfirmButton: false,
-  //       timer: 2000,
-  //       title: `Logueado!`,
-  //       icon: "success",
-  //     });
-  //     window.location.replace("/");
-  //   } else {
-  //     Swal.fire({
-  //       toast: true,
-  //       position: "top-end",
-  //       showConfirmButton: false,
-  //       timer: 2000,
-  //       title: `usuario o clave incorrectos`,
-  //       icon: "error",
-  //     });
-  //   }
 });

@@ -53,12 +53,12 @@ router.get("/realTimeProducts", privacy("PRIVATE"), async (req, res) => {
   res.render("realTimeProducts", { css: "realTimeProducts" });
 });
 
-router.get("/cart", async (req, res) => {
+router.get("/cart", privacy("PRIVATE"), async (req, res) => {
   const carts = await cartsManager.getCarts();
   res.render("cart", { carts, css: "cart" });
 });
 
-router.get("/cart/:cid", async (req, res) => {
+router.get("/cart/:cid", privacy("PRIVATE"), async (req, res) => {
   const cid = req.params.cid;
   const carts = await cartsManager.getCarts();
   const cartSelected = carts.find((cart) => cart._id == cid);
@@ -76,12 +76,12 @@ router.get("/register", privacy("NO_AUTHENTICATED"), async (req, res) => {
 router.get("/login", privacy("NO_AUTHENTICATED"), async (req, res) => {
   res.render("login", { css: "login" });
 });
-router.get(
-  "/restorePassword",
-  privacy("NO_AUTHENTICATED"),
-  async (req, res) => {
-    res.render("restorePassword", { css: "login" });
-  }
-);
+// router.get(
+//   "/restorePassword",
+//   privacy("NO_AUTHENTICATED"),
+//   async (req, res) => {
+//     res.render("restorePassword", { css: "login" });
+//   }
+// );
 
 export default router;

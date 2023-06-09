@@ -61,3 +61,7 @@ button {
   color: white;
   margin-top: 20px;
 }
+a {
+  color: white;
+  text-decoration: none;
+}

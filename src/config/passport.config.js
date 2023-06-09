@@ -86,14 +86,16 @@ const initializePassportStrategies = () => {
     new GithubStrategy(
       {
         clientID: "Iv1.4c2c3b263793da3f",
-        clientSecret: "b818a39a35cc5b7dbd97e7c3903e37f8f320c039",
+        clientSecret: "59ea5802ff1ff72b38261bdb1c78a63e45d43f26",
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accesToken, refreshToken, profile, done) => {
         try {
           const { name } = profile._json;
+
           let emailGitHub = `${profile._json.login}@github.com`;
-          const user = await userManager.getUsersBy({ emailGitHub });
+
+          const user = await userManager.getUsersBy({ email: emailGitHub });
           console.log(user);
           if (!user) {
             const newUser = {
@@ -102,7 +104,7 @@ const initializePassportStrategies = () => {
               password: "",
             };
             const result = await userManager.createUsers(newUser);
-            done(null, result);
+            return done(null, result);
           }
           // si ya existe
 
@@ -115,7 +117,7 @@ const initializePassportStrategies = () => {
   );
 
   passport.serializeUser(function (user, done) {
-    return done(null, user.id);
+    return done(null, user.email);
   });
   passport.deserializeUser(async function (id, done) {
     if (id === 0) {

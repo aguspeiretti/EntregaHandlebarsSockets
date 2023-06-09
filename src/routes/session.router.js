@@ -60,28 +60,34 @@ router.post("/logout", (req, res) => {
   });
 });
 
-// router.post("/restorePassword", async (req, res) => {
-//   const { email, password } = req.body;
-//   const user = await userManager.getUsersBy({ email });
-//   if (!user)
-//     return res
-//       .status(400)
-//       .send({ status: "error", error: "Usuario no encontrado" });
-//   const isSamePassword = await validatePassword(password, user.password);
-//   if (isSamePassword)
-//     return res.status(400).send({
-//       status: "error",
-//       error: "Error al remplazar el password no puede ser la misma",
-//     });
-//   const newHassedPassword = await createHash(password);
-//   try {
-//     await userManager.updateOne(
-//       { email },
-//       { $set: { password: newHassedPassword } }
-//     );
-//   } catch (error) {
-//     console.log(error);
-//   }
+
+router.post("/restorePassword", async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await userManager.getUsersBy({ email });
+  console.log(user);
+  if (!user)
+    return res
+      .status(400)
+      .send({ status: "error", error: "Usuario no encontrado" });
+  const isSamePassword = await validatePassword(password, user.password);
+  console.log(password);
+  if (isSamePassword)
+    return res.status(400).send({
+      status: "error",
+      error: "Error al remplazar el password no puede ser la misma",
+    });
+  const newHassedPassword = await createHash(password);
+  try {
+    await userManager.updateOne(
+      { email },
+      { $set: { password: newHassedPassword } }
+    );
+    console.log(email, newHassedPassword);
+  } catch (error) {
+    console.log(error);
+  }
+
 
 //   return res.send({ status: "success", messages: "reestablecida" });
 // });

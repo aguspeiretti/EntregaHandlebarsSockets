@@ -60,6 +60,7 @@ router.post("/logout", (req, res) => {
   });
 });
 
+
 router.post("/restorePassword", async (req, res) => {
   const { email, password } = req.body;
 
@@ -87,6 +88,7 @@ router.post("/restorePassword", async (req, res) => {
     console.log(error);
   }
 
-  return res.send({ status: "success", messages: "reestablecida" });
-});
+
+//   return res.send({ status: "success", messages: "reestablecida" });
+// });
 export default router;

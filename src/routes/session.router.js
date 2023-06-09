@@ -44,7 +44,7 @@ router.post(
 );
 router.get("/loginFail", (req, res) => {
   console.log(req.session.messages);
-  if (req.session.messages.length > 4)
+  if (req.session.messages >= 4)
     return res.status(400).send({ message: "BLOQUEA LOS INTENTOS YA!!" });
   res.status(400).send({ status: "error", error: req.session.messages });
 });
@@ -61,6 +61,20 @@ router.post("/logout", (req, res) => {
 
     res.send({ status: "success", message: "Sesión cerrada correctamente" });
   });
+});
+
+router.get("/github", passport.authenticate("github"), (req, res) => {});
+
+router.get("/githubcallback", passport.authenticate("github"), (req, res) => {
+  const user = req.user;
+  console.log(user);
+  req.session.user = {
+    id: user.id,
+    name: user.first_name,
+    role: user.role,
+    email: user.email,
+  };
+  res.send({ status: "success", messages: "Logueado,CON GITHUB" });
 });
 
 router.post("/restorePassword", async (req, res) => {
